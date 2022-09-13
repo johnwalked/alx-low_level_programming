@@ -19,7 +19,7 @@ for (counter = 1; counter <= (countto / 2); counter++)
 {
 if (counter == 25)
 {
-printf("%li, %li ", a, b);
+printf("%li, %li", a, b);
 
 }
 else if ((counter != 25))
