@@ -3,54 +3,56 @@
 #include <stddef.h>
 
 /**
- * infinite_add - adds two numbers
- * @n1: number one.
- * @n2: number two.
- * @r: buffer that the function will use to store the result.
- * @size_r: buffer size:
- *
- * Return: the pointer to dest.
+ * infinite_add - multiplies two digits
+ * @n1: 1st digit in the multiplication
+ * @n2: 1st digit in the multiplication
+ * @r: 1st digit in the multiplication
+ * @size_r: 1st digit in the multiplication
+ * Description: multiplies two digits
+ * Return: the result of the multiplication
  */
-char *infinite_add(char *n1, char *n2, char *r, int size_r)
+char *infinite_add(char *n1, char *n2,
+		char *r, int size_r)
 {
-int c1 = 0, c2 = 0, op, bg, dr1, dr2, add = 0;
+	int fnum, snum, sum, base, rem = 0, n1length = 0, n2length = 0;
 
-while (*(n1 + c1) != '\0')
-c1++;
-while (*(n2 + c2) != '\0')
-c2++;
-if (c1 >= c2)
-bg = c1;
-else
-bg = c2;
-if (size_r <= bg + 1)
-return (0);
-r[bg + 1] = '\0';
-c1--, c2--, size_r--;
-dr1 = *(n1 + c1) -48, dr2 = *(n2 + c2) -48;
-while (bg >= 0)
-{
-op = dr1 + dr2 + add;
-if (op >= 10)
-add = op / 10;
-else
-add = 0;
-if (op > 0)
-*(r + bg) = (op % 10) + 48;
-else
-*(r + bg) = '0';
-if (c1 > 0)
-c1--, dr1 = *(n1 + c1) -48;
-else
-dr1 = 0;
-if (c2 > 0)
-c2--, dr2 = *(n2 + c2) -48;
-else
-dr2 = 0;
-bg--, size_r--;
-}
-if (*(r) == '0')
-return (r + 1);
-else
-return (r);
+	while (n1[++n1length] != '\0');
+	n1length--;
+	while (n2[++n2length] != '\0');
+	n2length--;
+	size_r--;
+	while (n1length >= 0 || n2length >= 0)
+	{
+		if (size_r < 0)
+			return (0);
+		if (n1length >= 0)
+			fnum = n1[n1length] - '0';
+		else
+			fnum = 0;
+		if (n2length >= 0)
+			snum = n2[n2length] - '0';
+		else
+			snum = 0;
+		sum = fnum + snum + rem;
+		if (sum > 9)
+		{
+			base = sum % 10;
+			r[size_r] = base + '0';
+			rem = sum / 10;
+		}
+		else
+		{
+			base = sum;
+			r[size_r] = base + '0';
+			rem = 0;
+		}
+		size_r--;
+		n1length--;
+		n2length--;
+	}
+	if(size_r < 0 && rem)
+		return(0);
+	else if (size_r >=0 && rem)
+		r[size_r] = rem;
+	return (r);
 }
